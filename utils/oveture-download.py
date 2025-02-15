@@ -3,8 +3,8 @@ import json
 import os
 import subprocess
 
-path = "../dehradun-psi/"
-input_region_polygon = "../dehradun-psi/DEHRADUN.geojson"
+path = "../mumbai-tiss/"
+input_region_polygon = "../mumbai-tiss/MUMBAI-REGION.geojson"
 
 # overturemaps download --help # to see options
 
@@ -54,28 +54,28 @@ command = [
     "-o", path + "overture-water" + ".geojson"
 ]
 
-# subprocess.run(command, check=True)
+subprocess.run(command, check=True)
 
-# gdf = gpd.read_file(path + "overture-water" + ".geojson")
+gdf = gpd.read_file(path + "overture-water" + ".geojson")
 
-# gdf = gdf[["subtype", "class", "geometry"]]
+gdf = gdf[["subtype", "class", "geometry"]]
 
-# gdf.to_file(path + "overture-water" + ".gpkg", driver="GPKG")
+gdf.to_file(path + "overture-water" + ".gpkg", driver="GPKG")
 
-# os.remove(path + "overture-water" + ".geojson")
-
-
+os.remove(path + "overture-water" + ".geojson")
 
 
-# transport segment download
 
-command = [
-    "overturemaps", "download",
-    "--bbox", bbox_str,
-    "-f", "geojson",
-    "--type", "segment",
-    "-o", path + "overture-transport" + ".geojson"
-]
+
+# # transport segment download
+
+# command = [
+#     "overturemaps", "download",
+#     "--bbox", bbox_str,
+#     "-f", "geojson",
+#     "--type", "segment",
+#     "-o", path + "overture-transport" + ".geojson"
+# ]
 
 # subprocess.run(command, check=True)
 
@@ -91,7 +91,7 @@ command = [
 
 
 
-# places download
+# # places download
 
 # command = [
 #     "overturemaps", "download",
@@ -119,30 +119,30 @@ command = [
 
 
 
-# land cover download
+# # land cover download
 
-command = [
-    "overturemaps", "download",
-    "--bbox", bbox_str,
-    "-f", "geojson",
-    "--type", "land_cover",
-    "-o", path + "overture-landcover" + ".geojson"
-]
+# command = [
+#     "overturemaps", "download",
+#     "--bbox", bbox_str,
+#     "-f", "geojson",
+#     "--type", "land_cover",
+#     "-o", path + "overture-landcover" + ".geojson"
+# ]
 
-subprocess.run(command, check=True)
+# subprocess.run(command, check=True)
 
-gdf = gpd.read_file(path + "overture-landcover" + ".geojson")
+# gdf = gpd.read_file(path + "overture-landcover" + ".geojson")
 
-gdf['min_zoom'] = gdf['cartography'].apply(lambda x: extract(x, "min_zoom"))
+# gdf['min_zoom'] = gdf['cartography'].apply(lambda x: extract(x, "min_zoom"))
 
-gdf = gdf[gdf["min_zoom"] > 0]
+# gdf = gdf[gdf["min_zoom"] > 0]
 
-gdf['max_zoom'] = gdf['cartography'].apply(lambda x: extract(x, "max_zoom"))
+# gdf['max_zoom'] = gdf['cartography'].apply(lambda x: extract(x, "max_zoom"))
 
-gdf['sort_key'] = gdf['cartography'].apply(lambda x: extract(x, "sort_key"))
+# gdf['sort_key'] = gdf['cartography'].apply(lambda x: extract(x, "sort_key"))
 
-gdf = gdf[["subtype", "min_zoom", "max_zoom", "sort_key", "geometry"]]
+# gdf = gdf[["subtype", "min_zoom", "max_zoom", "sort_key", "geometry"]]
 
-gdf.to_file(path + "overture-landcover" + ".gpkg", driver="GPKG")
+# gdf.to_file(path + "overture-landcover" + ".gpkg", driver="GPKG")
 
-os.remove(path + "overture-landcover" + ".geojson")
+# os.remove(path + "overture-landcover" + ".geojson")
